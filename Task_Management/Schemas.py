@@ -6,11 +6,13 @@ from typing import List,Optional
 class User(BaseModel):
     name: str
     email: str
+    role: str
     password: str
 
 class ShowUser(BaseModel):
     name: str
     email: str
+    role: str
     class Config():
         orm_mode= True
 
@@ -18,8 +20,7 @@ class ShowUser(BaseModel):
 class Login(BaseModel):
     username: str
     password: str
-    
-    
+  
     
 class Token(BaseModel):
     access_token: str
