@@ -9,6 +9,11 @@ class User(BaseModel):
     role: str
     password: str
 
+class Project(BaseModel):
+    name: str
+    description: str
+
+
 class ShowUser(BaseModel):
     name: str
     email: str

@@ -11,3 +11,10 @@ class User(Base):
     role = Column(String)
     password = Column(String)
  
+ 
+class Project(Base):
+    __tablename__ = 'Project'
+    
+    id = Column(Integer, primary_key=True, index=True) 
+    name = Column(String)
+    description =Column(String)

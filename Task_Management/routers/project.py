@@ -1,7 +1,7 @@
 from .. import database, Schemas, models
 from sqlalchemy.orm import Session
 from fastapi import APIRouter,Depends,status, HTTPException
-from ..repository import user
+from ..repository import project
 from ..hashing import Hash
 
 get_db = database.get_db
@@ -13,9 +13,10 @@ router = APIRouter(
 )
 
 @router.post('/')
-def create_project():
-    return "post project"
+def create_project(request : Schemas.Project, db: Session = Depends(get_db) ):
+    return project.create_project(request,db)
  
+
 @router.get('/')
 def get_Projects():
     return "get all project"
