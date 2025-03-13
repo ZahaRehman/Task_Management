@@ -13,8 +13,12 @@ router = APIRouter(
     tags=["Tasks"]
 )
 
-
 @router.post("/projects/{id}/tasks", status_code=status.HTTP_201_CREATED)
-def create_task(id: int, request: Schemas.Task, db: Session = Depends(get_db), current_user: models.User = Depends(get_current_user)):
-    return "test" 
+def create_task(
+    id: int, 
+    request: Schemas.Task, 
+    db: Session = Depends(get_db), 
+    current_user: models.User = Depends(get_current_user)
+):
+    return task.create_task(id, request, db)
 
