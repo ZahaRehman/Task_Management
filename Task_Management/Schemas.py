@@ -28,6 +28,24 @@ class ShowProject(BaseModel):
         orm_mode= True
 
 
+class Task(BaseModel):
+    title: str
+    description: str
+
+class TaskCreat(Task):
+    project_id: int
+
+class TaskShow(Task):
+    
+    id: int
+    status: str
+    assigned_user_id: Optional[int] = None
+
+    class Config:
+        orm_mode = True
+
+
+
 class ShowUser(BaseModel):
     name: str
     email: str
