@@ -21,6 +21,12 @@ class ProjectResponse(Project):
     class Config:
         orm_mode = True
 
+class ShowProject(BaseModel):
+    title: str
+    description: str
+    class Config():
+        orm_mode= True
+
 
 class ShowUser(BaseModel):
     name: str
