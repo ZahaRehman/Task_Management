@@ -10,8 +10,16 @@ class User(BaseModel):
     password: str
 
 class Project(BaseModel):
-    name: str
+    title: str
     description: str
+
+
+class ProjectResponse(Project):
+    id: int
+    owner_id: int
+
+    class Config:
+        orm_mode = True
 
 
 class ShowUser(BaseModel):

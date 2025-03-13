@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import Column, Integer, String, ForeignKey, Text
 from .database import Base
 from sqlalchemy.orm import relationship
 
@@ -10,11 +10,17 @@ class User(Base):
     email = Column(String)
     role = Column(String)
     password = Column(String)
+    
+    projects = relationship("Project", back_populates="owner")
+ 
  
  
 class Project(Base):
-    __tablename__ = 'Project'
+    __tablename__ = 'projects'
+
+    id = Column(Integer, primary_key=True, index=True)
+    title = Column(String, nullable=False)
+    description = Column(Text, nullable=True)
+    owner_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     
-    id = Column(Integer, primary_key=True, index=True) 
-    name = Column(String)
-    description =Column(String)
+    owner = relationship("User", back_populates="projects")
