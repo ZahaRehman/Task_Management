@@ -1,4 +1,3 @@
-
 from pydantic import BaseModel
 from typing import List,Optional
 
@@ -35,6 +34,7 @@ class Task(BaseModel):
 
 class TaskCreat(Task):
     project_id: int
+    
 
 class TaskShow(Task):
     
