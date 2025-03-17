@@ -18,7 +18,16 @@ def create_task(
     id: int, 
     request: Schemas.Task, 
     db: Session = Depends(get_db), 
-    current_user: models.User = Depends(get_current_user)
+    # current_user: models.User = Depends(get_current_user)
 ):
     return task.create_task(id, request, db)
 
+
+@router.put("/{id}")
+def update_task(
+    id: int, 
+    request: Schemas.Task, 
+    db: Session = Depends(get_db), 
+    # current_user: models.User = Depends(get_current_user)
+):
+    return task.update_task(id, request, db)
