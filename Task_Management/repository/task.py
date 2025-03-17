@@ -4,7 +4,7 @@ from fastapi import HTTPException,status, Depends
 from ..hashing import Hash
 
 
-def create_task(project_id: int, request: Schemas.Task, db: Session):
+def create_task(project_id: int, request: Schemas.Task, db: Session, current_user: Schemas.User):
     project = db.query(models.Project).filter(models.Project.id == project_id).first()
     if not project:
         raise HTTPException(status_code=404, detail="Project not found")
@@ -19,3 +19,17 @@ def create_task(project_id: int, request: Schemas.Task, db: Session):
     db.commit()
     db.refresh(new_task)
     return new_task
+
+
+def delete_task(id:int, db:Session):
+    task= db.query(models.Task).filter(models.Task.id==id)
+    task_obj = task.first()
+    if not task_obj:
+        raise HTTPException(status_code= status.HTTP_404_NOT_FOUND, detail=f"Project with id {id} not found")
+    task.delete(synchronize_session=False)
+    db.commit()
+    return 'done'
+
+def get_all(db:Session):
+    tasks= db.query(models.Task).all()
+    return tasks

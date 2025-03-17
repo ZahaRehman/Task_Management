@@ -6,6 +6,7 @@ from ..hashing import Hash
 from ..oauth2 import get_current_user
 from ..repository import task
 get_db = database.get_db
+from typing import List
 
 
 router = APIRouter(
@@ -27,3 +28,16 @@ def create_task(
         ) 
         return task.create_task(id, request, db, current_user)
 
+@router.delete('/{id}', status_code= status.HTTP_204_NO_CONTENT)
+def delete_Task(id:int, db: Session = Depends(database.get_db), get_current_user: Schemas.User= Depends(oauth2.get_current_user)):
+    if get_current_user.role not in ("user", "Manager"):
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="You don't have access to Delete"
+        )
+    return task.delete_task(id,db)
+
+
+@router.get('/',response_model=List[Schemas.TaskShow])
+def get_all_Tasks(db: Session = Depends(get_db)):
+    return task.get_all(db)
