@@ -19,8 +19,8 @@ def create_task(project_id: int, request: Schemas.Task, db: Session):
     return new_task
 
 
-def update_task(project_id: int, request: Schemas, db: Session):
-    updated_task= db.query(models.Task).filter(models.Task.id==project_id).first()
+def update_task(task_id: int, request: Schemas, db: Session):
+    updated_task= db.query(models.Task).filter(models.Task.id==task_id).first()
     
     if not updated_task:
         raise HTTPException(status_code=404, detail="Task not found")
