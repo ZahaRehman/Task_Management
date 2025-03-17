@@ -12,22 +12,30 @@ router = APIRouter(
     prefix='/task',
     tags=["Tasks"]
 )
-
 @router.post("/projects/{id}/tasks", status_code=status.HTTP_201_CREATED)
 def create_task(
     id: int, 
     request: Schemas.Task, 
     db: Session = Depends(get_db), 
-    # current_user: models.User = Depends(get_current_user)
+    current_user: models.User = Depends(get_current_user)
 ):
-    return task.create_task(id, request, db)
-
+        if  current_user.role not in ("admin", "Manager"):
+            raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="You don't have access to Update"
+        ) 
+        return task.create_task(id, request, db, current_user)
 
 @router.put("/{id}")
 def update_task(
     id: int, 
     request: Schemas.Task, 
     db: Session = Depends(get_db), 
-    # current_user: models.User = Depends(get_current_user)
+    current_user: models.User = Depends(get_current_user)
 ):
-    return task.update_task(id, request, db)
+    if  current_user.role not in ("User", "Manager"):
+            raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="You don't have access to Update"
+        ) 
+    return task.create_task(id, request, db, current_user)

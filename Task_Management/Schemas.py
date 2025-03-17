@@ -31,6 +31,7 @@ class ShowProject(BaseModel):
 class Task(BaseModel):
     title: str
     description: str
+    assigned_user_id: Optional[int] = None
 
 class TaskCreat(Task):
     project_id: int
