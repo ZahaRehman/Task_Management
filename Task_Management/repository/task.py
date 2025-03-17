@@ -3,7 +3,7 @@ from .. import models, Schemas
 from fastapi import HTTPException,status
 from ..hashing import Hash
 
-def create_task(project_id: int, request: Schemas.Task, db: Session):
+def create_task(project_id: int, request: Schemas.Task, db: Session,current_user:Schemas.User):
     project = db.query(models.Project).filter(models.Project.id == project_id).first()
     if not project:
         raise HTTPException(status_code=404, detail="Project not found")
@@ -11,7 +11,8 @@ def create_task(project_id: int, request: Schemas.Task, db: Session):
     new_task = models.Task(
         title=request.title,
         description=request.description,
-        project_id=project_id
+        project_id=project_id,
+        assigned_user_id = request.assigned_user_id
     )
     db.add(new_task)
     db.commit()
@@ -19,8 +20,8 @@ def create_task(project_id: int, request: Schemas.Task, db: Session):
     return new_task
 
 
-def update_task(task_id: int, request: Schemas, db: Session):
-    updated_task= db.query(models.Task).filter(models.Task.id==task_id).first()
+def update_task(project_id: int, request: Schemas, db: Session,current_user:Schemas.User):
+    updated_task= db.query(models.Task).filter(models.Task.id==project_id).first()
     
     if not updated_task:
         raise HTTPException(status_code=404, detail="Task not found")
