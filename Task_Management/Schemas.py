@@ -1,4 +1,3 @@
-
 from pydantic import BaseModel
 from typing import List,Optional
 
@@ -35,6 +34,7 @@ class Task(BaseModel):
 
 class TaskCreat(Task):
     project_id: int
+    
 
 class TaskShow(Task):
     
@@ -67,3 +67,21 @@ class Token(BaseModel):
 
 class TokenData(BaseModel):
     email: Optional[str] = None
+    
+    
+    
+class InvitationCreate(BaseModel):
+    invited_email: str 
+
+class InvitationResponse(BaseModel):
+    id: int
+    project_id: int
+    invited_email: str
+    token: str
+    status: str
+
+    class Config:
+        orm_mode = True
+
+class InvitationAccept(BaseModel):
+    token: str
