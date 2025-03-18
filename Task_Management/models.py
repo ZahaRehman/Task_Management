@@ -24,6 +24,8 @@ class Project(Base):
     owner_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     
     tasks= relationship('Task', back_populates="project")
+    
+    invitations = relationship("Invitation", back_populates="project", cascade="all, delete-orphan")
     owner = relationship("User", back_populates="projects")
     
     
@@ -39,3 +41,14 @@ class Task(Base):
 
     project = relationship("Project", back_populates="tasks")
     assigned_user = relationship("User")
+    
+    
+class Invitation(Base):
+    __tablename__ = 'invitations'
+    id = Column(Integer, primary_key=True, index=True)
+    project_id = Column(Integer, ForeignKey("projects.id"), nullable=False)
+    invited_email = Column(String, nullable=False)
+    token = Column(String, unique=True, nullable=False)
+    status = Column(String, default="pending")  # e.g., pending, accepted, declined
+
+    project = relationship("Project", back_populates="invitations")
