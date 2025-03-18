@@ -29,7 +29,6 @@ def update_task(project_id: int, request: Schemas, db: Session,current_user:Sche
     
     updated_task.title= request.title
     updated_task.description = request.description
-    updated_task.assigned_user_id= request.assigned_user_id
     db.add(updated_task)
     db.commit()
     db.refresh(updated_task)
